@@ -1,0 +1,15 @@
+.bouton {
+	font-family: 'Source Sans Pro', sans-serif;
+	height: 24px;
+    width: 250px;
+    background-color: #757575;
+	border:none;
+    border-radius: 5px;
+    text-align: center;
+	padding-left: 1%;
+	padding-right: 1%;
+}
+.bouton:hover {
+	background-color: #494949;
+	font-weight:bold;
+}
