@@ -4,14 +4,14 @@
 		<meta name="description" content="Ici, vous êtes sur le site de nessar, plus precisement dans la partie consacré au Teamspeak, elle affiche l'ip de celui-ci ainsi que quelques infos." />
 		<title>Site de Nessar</title>
 		<!--Image dans l'onglet -->
-		<link rel="shortcut icon" href="./image/n.png" type="image/x-icon">
+		<link rel="shortcut icon" href="{{url_for('static', filename='image/n.png')}}" type="image/x-icon">
 		
 		<!--Pour les éèàç -->
 		<meta charset="utf-8" />
 		<!--Pour les mobiles -->
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<!--CSS -->
-		<link type="text/css" rel="stylesheet" href="./stylesheet.css">
+		<link type="text/css" rel="stylesheet" href="{{url_for('static', filename='stylesheet.css')}}">
 		<style>
 			@import url('https://fonts.googleapis.com/css?family=Indie+Flower|Source+Sans+Pro|Yrsa');
 		</style>
@@ -57,10 +57,9 @@
 			</header>
 			<div class="menu">
 				<ul style="padding-left: 0px;margin-bottom:0px;">
-				<li><a href="./">Accueil</a></li>
-				<li><a href="./ts.html">Teamspeak</a></li>
-				<li><a href="./twitch.html">Twitch</a></li>
-				<li><a href="">Forum</a></li>
+					<li><a href="{{url_for('index')}}">Accueil</a></li>
+					<li><a href="{{url_for('ts')}}">Teamspeak</a></li>
+					<li><a href="{{url_for('twitch')}}">Twitch</a></li>
 				</ul>
 			</div>
 			<div class="contenu">
@@ -70,7 +69,7 @@
 						<img class="imageM" src="https://ts3index.com/banner/s410_263770.png">
 					</aside>
 					<div class="divts" style="width: 50%; text-align: center;">
-						<img class="imagegifts" src=./image/ts.gif />
+						<img class="imagegifts" src="{{url_for('static', filename='image/ts.gif')}}" />
 						<a class="bouton" href="ts3server://ts.nessar.fr" target="_blank">
 							<div id="bouton">
 								<p style="padding-top:1px;">Rejoindre le TS</p>
