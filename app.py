@@ -28,3 +28,6 @@ def admin():
     if 'username' in session:
         return f'Logged in as {session["username"]}'
     return redirect(url_for('login'))
+
+if __name__ == '__main__':
+    app.run()
