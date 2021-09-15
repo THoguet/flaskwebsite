@@ -1,15 +1,27 @@
 * {
-	margin:0;
+	/* margin:0; */
 	padding:0;
 	box-sizing: border-box;
 }
 
 body {
 	overflow: hidden;
-	height: 100vh;
+	height: 100%;
 }
 
+a {
+	text-decoration:none;
+	color:white;
+}
 
+a:hover {
+	color:#a8a6a1;
+	transition:color .2s;
+}
+
+iframe {
+	text-align: center;
+}
 
 @keyframes animate {
 	0% {
@@ -29,6 +41,11 @@ body {
 
 @media screen and (min-width:1000px) {
 
+	header {
+		display: flex;
+		flex-direction: column;
+	}
+
 	span {
 		position: absolute;
 		pointer-events: none;
@@ -37,30 +54,34 @@ body {
 		z-index: 1;
 	}
 
-	a {
-		text-decoration:none;
-		color:white;
-	}
-
-	a:hover {
-		color:#a8a6a1;
-		transition:color .2s;
-	}
-
-	iframe {
-		text-align: center;
-	}
-
 	.corps {
+		display: flex;
+		flex-direction: column;
 		position: sticky;
 		text-align:center;
-		margin-top:0px;
-		max-width: 1180px;
+		min-width: 70%;
+		max-width: 70%;
 		margin:auto;
 		background-color:white;
 		z-index:2;
+		min-height: 100%;
 	}
 	
+	.child_center{
+		margin: auto;
+		text-align: center;
+	}
+
+	.child_left{
+		margin-left: 0%;
+		text-align: left;
+	}
+
+	.child_right{
+		text-align: right;
+		margin-right: 0%;
+	}
+
 	.titre {
 		font-family: 'Yrsa', serif;
 		font-weight: 100;
@@ -89,6 +110,8 @@ body {
 	}
 
 	.menu {
+		display: flex;
+		flex-direction: column;
 		letter-spacing: 1px;
 		font-weight: 700;
 		font-size: 20px;
@@ -96,11 +119,7 @@ body {
 		background-color:#333;
 		color:white;
 	}
-	
-	.contenu {
-		text-align:left;
-	}
-	
+		
 	.bouton {
 		transition:color .0s;
 	}
@@ -125,7 +144,7 @@ body {
 		padding: 1.3em;
 	}
 	.paddingdiv {
-		padding: 55px;
+		padding: 10%;
 	}
 
 	.imagegifts {
@@ -139,40 +158,29 @@ body {
 
 @media screen and (max-width:1000px) {
 
+	header {
+		display: flex;
+		flex-direction: column;
+	}
+
 	span {
 		position: absolute;
 		pointer-events: none;
 		background: #fff;
 		animation: animate 5s linear;
 		z-index: 1;
-		display: none;
 	}
 
-	.paddingdiv {
-		padding: 0px;
-	}
-
-	a {
-		text-decoration:none;
-		color:white;
-	}
-
-	a:hover {
-		color:#a8a6a1;
-		transition:color .2s;
-	}
 
 	.corps {
-		position: fixed;
+		display: flex;
+		position: sticky;
+		flex-direction: column;
 		text-align:center;
-		margin-top:0px;
-		max-width: 1180px;
-		margin-left: auto;
-		margin-right: auto;
-		padding-right: 2%;
-		padding-left: 2%;
+		min-width: 100%;
 		background-color:white;
 		z-index:2;
+		min-height: 100%;
 	}
 
 	.titre {
@@ -203,16 +211,14 @@ body {
 	}
 	
 	.menu {
+		display: flex;
+		flex-direction: column;
 		letter-spacing: 1px;
 		font-weight: 700;
 		font-size: 20px;
 		font-family: 'Source Sans Pro', sans-serif;
 		background-color:#333;
 		color:white;
-	}
-
-	.contenu {
-		text-align:center;
 	}
 
 	.bouton {

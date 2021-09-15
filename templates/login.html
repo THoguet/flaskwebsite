@@ -1,7 +1,7 @@
- <!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 	<head>
-		<meta name="description" content="Ici, vous êtes sur le site de nessar, plus precisement dans la partie consacré au Teamspeak, elle affiche l'ip de celui-ci ainsi que quelques infos." />
+		<meta name="description" content="Ici vous êtes sur le site de Nessar, plus precisement dans la partie consacré a ses reseaux sociaux, Twitter, Twitch, Youtube et son profil Steam." />
 		<title>Site de Nessar</title>
 		<!--Image dans l'onglet -->
 		<link rel="shortcut icon" href="{{url_for('static', filename='image/n.png')}}" type="image/x-icon">
@@ -50,7 +50,6 @@
 
 			setInterval(createSquare, 150)
 		</script>
-
 		<div class="corps">
 			<header>
 				<h1 class="titre">Site de Nessar</h1>
@@ -62,23 +61,18 @@
 					<li><a href="{{url_for('twitch')}}">Twitch</a></li>
 				</ul>
 			</div>
-			<div>
-				<div class="paddingdiv" >
-					<aside class="imagets">
-						<img class="imageO" src="https://ts3index.com/banner/s500_263770.png">
-						<img class="imageM" src="https://ts3index.com/banner/s410_263770.png">
-					</aside>
-					<div class="divts" style="width: 50%; text-align: center;">
-						<img class="imagegifts" src="{{url_for('static', filename='image/ts.gif')}}" />
-						<a class="bouton" href="ts3server://ts.nessar.fr" target="_blank">
-							<div id="bouton">
-								<p style="padding-top:1px;">Rejoindre le TS</p>
-							</div>
-						</a>
-						<p>Si vous n'arrivez pas à vous connecter voici l'ip: <u>ts.nessar.fr</u></p>
-					</div>
-					<!--<center><h2>Nouveau système de ranks et de statistiques disponible a cette adresse :</h2><a href="http://ktfaction.fr/ranksystem/"><div id="bouton" style="padding:0px">Cliquez ici</div></a></center>-->
-				</div>
+			<div style="height: 80%;">
+                <h1>Panneau Admin</h1>
+                <br>
+                <form action="{{url_for('login')}}" method="post">
+                    <label for="username">Nom d'utilisateur : </label>
+                    <input type="text" name="username">
+                    <label type="password" for="pswd">Mot de passe : </label>
+                    <input name="pswd">
+                    <label for="stayconnected">Resté connecté ?</label>
+                    <input type="checkbox" name="stayconnected">
+                    <input type="submit">
+                </form>
 			</div>
 		</div>
 	</body>

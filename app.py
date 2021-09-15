@@ -16,6 +16,15 @@ def ts():
 def twitch():
     return render_template("twitch.html")
 
-@app.route("/<name>")
-def hello(name):
-    return f"Hello, {escape(name)}!"
+@app.route("/login", methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        session['username'] = request.form['username']
+        return redirect(url_for('admin'))
+    return render_template("login.html")
+
+@app.route("/admin", methods=['GET', 'POST'])
+def admin():
+    if 'username' in session:
+        return f'Logged in as {session["username"]}'
+    return redirect(url_for('login'))
