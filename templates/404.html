@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>404</title>
+		<!--Image dans l'onglet -->
+		<link rel="shortcut icon" href="{{url_for('static', filename='image/n.png')}}" type="image/x-icon">
+		
+		<!--Pour les éèàç -->
+		<meta charset="utf-8" />
+		<!--Pour les mobiles -->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<!--CSS -->
+		<link type="text/css" rel="stylesheet" href="{{url_for('static', filename='404.css')}}">
+		<style>
+			@import url('https://fonts.googleapis.com/css?family=Indie+Flower|Source+Sans+Pro|Yrsa');
+		</style>
+	</head>
+    <body style="background-image: url('{{url_for('static', filename='image/lost.gif')}}');">
+		<ul>
+        	<li class="quatrecentquatre">404</li>
+			<li class='hidden text'>Salut, tu es perdu ? Cette page n'existe pas. À bientôt !</li>
+		</ul>
+		<script>
+			function sleep(ms) {
+				return new Promise(resolve => setTimeout(resolve, ms));
+			}
+			async function resize() {
+				await sleep(2000);
+				const text = document.querySelector(".quatrecentquatre");
+				const text2 = document.querySelector(".hidden");
+				text.style.fontSize = '15vmax';
+				text.style.width = '30vmax';
+				text.style.lineHeight = '15vmax';
+				await sleep(2500);
+				text2.style.opacity = "1";
+				await sleep(3000)
+				window.location.replace("/");
+			}
+			resize();
+		</script>
+	</body>

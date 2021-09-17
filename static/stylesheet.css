@@ -123,7 +123,26 @@ iframe {
 	.bouton {
 		transition:color .0s;
 	}
-	
+
+	input {
+		border-radius: 5px;
+	}
+
+	.inputbutton {
+		color: white;
+		background-color: #000000;
+		/* border:none; */
+		border-radius: 5px;
+		text-align: center;
+		padding-left: 3px;
+		padding-right: 3px;
+	}
+
+	.inputbutton:hover {
+		background-color: #494949;
+		font-weight:bold;
+	}
+
 	#bouton {
 	font-family: 'Source Sans Pro', sans-serif;
 	height: 24px;
@@ -228,6 +247,7 @@ iframe {
 	.imagegifts {
 		margin: auto;
 	}
+
 
 	#bouton {
 	font-family: 'Source Sans Pro', sans-serif;

@@ -1,0 +1,50 @@
+* {
+	margin : 0px;
+	overflow: hidden;
+	transition: all 3s ease-in-out;
+}
+
+body {
+	background-size: initial;
+}
+
+ul { 
+	/* background: #00000; */
+	padding: 0px;
+	border: 0px solid #e2e2e2;
+}
+
+li {
+	width: 100%
+}
+
+.quatrecentquatre {
+	font-size: clamp(1vh, 30vh, 100vh);
+	line-height: 100vh;
+	text-align: center;
+	font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+	list-style: none;
+}
+
+.text {
+	font-size: 5vmax;
+	font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+	margin-left: 3.5vmax;
+	margin-right: 3.5vmax;
+	transition: all 1s linear;
+}
+
+.hidden {
+	opacity: 0;
+}
+
+@media screen and (min-width: 600px) {
+	.quatrecentquatre {
+		font-size: calc(42vmin + 42 * ((100vw - 600px) / 600));
+	}
+}
+@media screen and (min-width: 1200px) {
+	.quatrecentquatre {
+		font-size: 85vmin;
+	}
+}

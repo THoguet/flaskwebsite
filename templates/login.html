@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<meta name="description" content="Ici vous êtes sur le site de Nessar, plus precisement dans la partie consacré a ses reseaux sociaux, Twitter, Twitch, Youtube et son profil Steam." />
 		<title>Site de Nessar</title>
 		<!--Image dans l'onglet -->
 		<link rel="shortcut icon" href="{{url_for('static', filename='image/n.png')}}" type="image/x-icon">
@@ -61,7 +60,7 @@
 					<li><a href="{{url_for('twitch')}}">Twitch</a></li>
 				</ul>
 			</div>
-			<div style="height: 80%;">
+			<div style="height: 80%;margin-bottom: 1%;">
                 <h1>Panneau Admin</h1>
                 <br>
                 <form action="{{url_for('login')}}" method="post">
@@ -71,7 +70,7 @@
                     <input name="pswd">
                     <label for="stayconnected">Resté connecté ?</label>
                     <input type="checkbox" name="stayconnected">
-                    <input type="submit">
+					<input class="inputbutton" type="submit">
                 </form>
 			</div>
 		</div>
