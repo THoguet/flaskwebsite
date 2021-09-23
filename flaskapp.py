@@ -49,6 +49,13 @@ def page_not_found(error):
 def quatrecentquatre():
 	return render_template('404.html')
 
+@app.route("/getcal")
+def calUni():
+	try:
+		return send_from_directory('./static/', path='calUni.ics')
+	except FileNotFoundError:
+		abort(404)
+
 @app.route("/admin", methods=['GET', 'POST'])
 def admin():
 	if 'username' in session:
