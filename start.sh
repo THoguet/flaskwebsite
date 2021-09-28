@@ -1,1 +1,0 @@
-screen -dmS UniBot python3 ./makeIcs.py
