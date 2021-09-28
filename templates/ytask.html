@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta name="description" content="Bienvenue dans l'accueil du site de Nessar, a partir d'ici, vous pourez acceder a tout le site, au forum, a mes reseaux Sociaux ainsi qu'au Teamspeak !" />
+		<title>Site de Nessar</title>
+		<!--Image dans l'onglet -->
+		<link rel="shortcut icon" href="{{url_for('static', filename='image/n.png')}}" type="image/x-icon">
+		
+		<!--Pour les éèàç -->
+		<meta charset="utf-8" />
+		<!--Pour les mobiles -->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<!--CSS -->
+		<link type="text/css" rel="stylesheet" href="{{url_for('static', filename='stylesheet.css')}}">
+		<style>
+			@import url('https://fonts.googleapis.com/css?family=Indie+Flower|Source+Sans+Pro|Yrsa');
+		</style>
+	</head>
+	<body>
+		<div class="corps">
+			<header>
+				<h1 class="titre">Site de Nessar</h1>
+			</header>
+			<div class="menu">
+				<ul style="padding-left: 0px;margin-bottom:0px;">
+				<li><a href="{{url_for('index')}}">Accueil</a></li>
+				<li><a href="{{url_for('ts')}}">Teamspeak</a></li>
+				<li><a href="{{url_for('twitch')}}">Twitch</a></li>
+				<li><a href="{{url_for('ytgetlink')}}">YT-Sync</a></li>
+				<!--<li><a href="">Forum</a></li>-->
+				</ul>
+			</div>
+            <div>
+                <h1>YT-Sync</h1>
+                <form action="{{url_for('yt')}}" method="POST" style="padding-top: 1%;padding-bottom: 1%;">
+                    <input type="url" name="linkyt" placeholder="Entrez l'url youtube">
+                    <input type="submit">
+                </form>
+            </div>
+		</div>
+	</body>
+</html>

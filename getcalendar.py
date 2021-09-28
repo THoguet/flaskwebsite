@@ -31,7 +31,7 @@ def is_room(field: str) -> bool:
 	return ('/' in field and not '//' in field) or 'CREMI -' in field
 
 class WebApiURL:
-	DOMAIN          = 'https://ukit.kbdev.io/Home/'
+	DOMAIN          = 'https://celcat.u-bordeaux.fr/Calendar/Home/'
 	GROUPS          = 'ReadResourceListItems'
 	CALENDARDATA    = 'GetCalendarData'
 	SIDEBAR         = 'GetSideBarEvent'
@@ -97,8 +97,7 @@ def parse_event(event: dict) -> dict:
 				parsed_event['notes'] = field
 	return parsed_event
 
-def getcalendar():
-	group = 'IN301A42'
+def getcalendar(group):
 	id_cal = get_calendar(group)
 	sche_id_dict = {}
 	for id, event in id_cal.items():
@@ -108,9 +107,9 @@ def getcalendar():
 	t = sorted_schedule(sche_id_dict.values())
 	res = []
 	for i in t:
-		if i["room"] != None:
-			if (i["module"] != "4TTV303U LCO - Culture, expres & créativité" and i["module"] != "4TTV402U Sport" and i["module"] != "4TTV403U Pratique Théâtrale" and i["module"] != "4TIN309U Entrepreunariat"):
-				res.append(i)
+		if i["room"] == None:
+			i["room"] = ""
+		res.append(i)
 	return res
 
 #print(calendarinfo[43])

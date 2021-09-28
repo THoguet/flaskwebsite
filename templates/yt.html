@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta name="description" content="Bienvenue dans l'accueil du site de Nessar, a partir d'ici, vous pourez acceder a tout le site, au forum, a mes reseaux Sociaux ainsi qu'au Teamspeak !" />
+		<title>Site de Nessar</title>
+		<!--Image dans l'onglet -->
+		<link rel="shortcut icon" href="{{url_for('static', filename='image/n.png')}}" type="image/x-icon">
+		
+		<!--Pour les éèàç -->
+		<meta charset="utf-8" />
+		<!--Pour les mobiles -->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<!--CSS -->
+		<link type="text/css" rel="stylesheet" href="{{url_for('static', filename='stylesheet.css')}}">
+		<style>
+			@import url('https://fonts.googleapis.com/css?family=Indie+Flower|Source+Sans+Pro|Yrsa');
+		</style>
+	</head>
+	<body>
+		<div class="corps">
+			<header>
+				<h1 class="titre">Site de Nessar</h1>
+			</header>
+			<div class="menu">
+				<ul style="padding-left: 0px;margin-bottom:0px;">
+				<li><a href="{{url_for('index')}}">Accueil</a></li>
+				<li><a href="{{url_for('ts')}}">Teamspeak</a></li>
+				<li><a href="{{url_for('twitch')}}">Twitch</a></li>
+				<li><a href="{{url_for('ytgetlink')}}">YT-Sync</a></li>
+				<!--<li><a href="">Forum</a></li>-->
+				</ul>
+			</div>
+			<div class='yt'>
+				<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js" integrity="sha512-q/dWJ3kcmjBLU4Qc47E4A9kTB4m3wuTY7vkFJDTZKjTs8jhyGQnaUrxa0Ytd0ssMZhbNua9hE+E7Qv1j+DyZwA==" crossorigin="anonymous"></script>
+				<div id="player"></div>
+
+				<script>
+					var tag = document.createElement('script');
+
+					tag.src = "https://www.youtube.com/iframe_api";
+					var firstScriptTag = document.getElementsByTagName('script')[0];
+					firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+					var player;
+					var socket = io();
+					function onYouTubeIframeAPIReady() {
+						player = new YT.Player('player', {
+							height: "",
+							width: "",
+							videoId: '{{linkyt}}',
+							events: {
+								'onStateChange': onPlayerStateChange
+							}
+						});
+					}			
+					var done = false;
+					var updated = false;
+					var lastevent = -1;
+					var ul;
+					var li;
+					var username;
+					var room = window.location.href.slice(window.location.href.length-11,window.location.href.length);
+					var pvid = Math.floor(Math.random()*10000);
+					function appendul(text){
+						ul = document.getElementById("log");
+							li = document.createElement("li");
+							li.appendChild(document.createTextNode(text));
+							ul.appendChild(li);
+							var tmp = 0;
+							for (var i = 0; i < ul.getElementsByTagName("li").length;i++){
+								tmp=tmp + ul.getElementsByTagName("li")[i].offsetHeight;
+							}
+							if (tmp > ul.offsetHeight-ul.getElementsByTagName("li")[0].offsetHeight){
+								ul.getElementsByTagName("li")[1].style.opacity = '0';
+								setTimeout(function(){ul.removeChild(ul.getElementsByTagName("li")[1])}, 1000)
+							}
+					}
+					function onPlayerStateChange(event) {
+						updated = false;
+						if (event.data == YT.PlayerState.BUFFERING && lastevent == 1) {
+							updated = true;
+							done = true;
+						}
+						if (event.data == YT.PlayerState.PAUSED && !done) {
+							updated = true;
+							appendul('⏸ '+username);
+							socket.emit('pause',player.getMediaReferenceTime().toFixed(2),pvid,room,Date.now(),username);
+						}
+						if (event.data == YT.PlayerState.PLAYING && !done) {
+							updated = true;
+							appendul('▶ '+username);
+							socket.emit('play',player.getMediaReferenceTime().toFixed(2),pvid,room,Date.now(),username);
+						}
+						if ((event.data == YT.PlayerState.PLAYING || event.data == YT.PlayerState.PAUSED) && !updated) {
+							done = false;
+						}
+						lastevent = event.data;
+					}
+					socket.on('connect', function() {
+						username = prompt("Enter Username (Ano if empty)")
+						if (username == null || username == ''){
+							username = 'Ano';
+						}
+						appendul('👋 '+username)
+						socket.emit('join',room,username);
+					});
+
+					socket.on('disconnect', function() {
+						socket.emit('leave',room,username);
+						appendul('🚪 '+username)
+					});
+					//socket.onAny(listener);
+
+					socket.on('pause', function(time,usr,pvid_,dst) {
+						time = parseFloat(time)
+						lat = Math.floor((Date.now() -dst)/10)/100;
+						if (pvid_!=pvid){
+							appendul('⏸ '+usr);
+							done = true;
+							player.pauseVideo();
+							player.seekTo(time);
+						}
+					});
+
+					socket.on('play', function(time,usr,pvid_,dst) {
+						time = parseFloat(time)
+						lat = Math.floor((Date.now() -dst)/10)/100;
+						if (pvid_!=pvid){
+							if (player.getPlayerState() == YT.PlayerState.CUED) {
+								appendul('▶ '+usr);
+								done = true;
+								player.seekTo(time+lat);
+							}else{
+								appendul('▶ '+usr);
+								done = true;
+								player.playVideo();
+								player.seekTo(time+lat);
+							}
+						}
+					});
+					socket.on('join', function(usr) {
+						appendul('👋 '+usr)
+					});
+					socket.on('leave', function(usr) {
+						appendul('🚪 '+usr)
+					});
+				</script>
+				<ul id="log">
+					<li>Log:</li>
+				</ul>
+			</div>
+		</div>
+	</body>
+</html>

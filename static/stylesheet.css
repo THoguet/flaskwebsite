@@ -23,6 +23,35 @@ iframe {
 	text-align: center;
 }
 
+.yt {
+	display: flex;
+	flex-direction: row;
+	height: calc(70vw /2);
+}
+
+.yt>iframe {
+	width:90%;
+}
+
+#log {
+	max-width: 10%;
+}
+
+#log>li {
+	animation: append-animate .3s linear;
+	opacity: 1;
+    transition: opacity 1000ms linear;
+}
+
+@keyframes append-animate {
+	from {
+		opacity: 0;
+	}
+	to {
+		opacity: 1;
+	}
+}
+
 @keyframes animate {
 	0% {
 		transform: scale(0) translateY(0) rotate(0deg);

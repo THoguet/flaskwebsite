@@ -1,14 +1,17 @@
-from  flask import *
+from flask import *
 from markupsafe import escape
-
+from flask_socketio import SocketIO, emit, send, join_room, leave_room
+import json
+from makeIcs import calperso, cal
+import os
+import time
 app = Flask(__name__)
+app.config['SECRET_KEY'] = '***REMOVED***'
 app.secret_key = b"***REMOVED***"
+socketio = SocketIO(app, cors_allowed_origins='*')
 
 def exist(tab,test):
-	for i in tab:
-		if test == i:
-			return True
-	return False
+	return test in tab
 
 @app.route("/")
 def index():
@@ -49,12 +52,45 @@ def page_not_found(error):
 def quatrecentquatre():
 	return render_template('404.html')
 
-@app.route("/getcal")
-def calUni():
-	try:
-		return send_from_directory('./static/', path='calUni.ics')
-	except FileNotFoundError:
-		abort(404)
+@app.route("/getcal/", methods=['GET'])
+@app.route("/getcal/<group>", methods=['GET'])
+@app.route("/getcal/<group>/", methods=['GET'])
+def calUni(group=None):
+	if group == None:
+		try:
+			print('open')
+			if (time.time()-int(os.path.getmtime('./static/calUniperso.ics'))>21600):
+				calperso()
+				return send_from_directory('./static/', path='calUniperso.ics')
+			return send_from_directory('./static/', path='calUniperso.ics')
+		except FileNotFoundError:
+			abort(404)
+	# try:
+	for i in os.listdir("./static/"):
+		if i == 'calUni '+group+' '+str(request.args)[20:-2].replace("(","").replace("',",":").replace("'","").replace(")","")+'.ics':
+			if (time.time()-int(os.path.getmtime('./static/calUni '+group+' '+str(request.args)[20:-2].replace("(","").replace("',",":").replace("'","").replace(")","")+'.ics'))>21600):
+				cal(group,request.args)
+				return send_from_directory('./static/', path='calUni '+group+' '+str(request.args)[20:-2].replace("(","").replace("',",":").replace("'","").replace(")","")+'.ics')
+			return send_from_directory('./static/', path='calUni '+group+' '+str(request.args)[20:-2].replace("(","").replace("',",":").replace("'","").replace(")","")+'.ics')
+	cal(group,request.args)
+	return send_from_directory('./static/', path='calUni '+group+' '+str(request.args)[20:-2].replace("(","").replace("',",":").replace("'","").replace(")","")+'.ics')
+	# except FileNotFoundError:
+	# 	abort(404)
+
+@app.route("/yt")
+@app.route("/yt/")
+def ytgetlink():
+	return render_template("ytask.html")
+
+@app.route("/yt/player", methods=['GET', 'POST'])
+def yt():
+	if exist(request.form,"linkyt") and request.form['linkyt'] != "":
+		return redirect(url_for('player',link=str(request.form['linkyt'][32:])))
+	return redirect(url_for('ytgetlink'))
+
+@app.route("/yt/player/<link>", methods=['GET', 'POST'])
+def player(link):
+	return render_template("yt.html", linkyt=link)
 
 @app.route("/admin", methods=['GET', 'POST'])
 def admin():
@@ -62,5 +98,26 @@ def admin():
 		return f'Logged in as {session["username"]}'
 	return redirect(url_for('login'))
 
+@socketio.on('pause')
+def pauseVideo(time,pvid,room,dst,username= "Ano"):
+	join_room(room)
+	emit('pause', (time,username,pvid,dst), to=room, skip_sid=request.sid)
+
+@socketio.on('play')
+def playVideo(time,pvid,room,dst,username= "Ano"):
+	join_room(room)
+	emit('play', (time,username,pvid,dst), to=room, skip_sid=request.sid)
+
+@socketio.on('join')
+def joinroom(room,username="Ano"):
+	join_room(room)
+	emit('join', username, to=room, skip_sid=request.sid)
+
+@socketio.on('leave')
+def leaveroom(room,username="Ano"):
+	join_room(room)
+	emit('leave', username, to=room, skip_sid=request.sid)
+	leave_room(room)
+
 if __name__ == '__main__':
-	app.run() 
+	socketio.run(app, debug=True)
