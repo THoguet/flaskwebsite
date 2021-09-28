@@ -59,21 +59,21 @@ def calUni(group=None):
 	if group == None:
 		try:
 			print('open')
-			if (time.time()-int(os.path.getmtime('./static/calUniperso.ics'))>21600):
+			if (time.time()-int(os.path.getmtime('./static/ics/calUniperso.ics'))>21600):
 				calperso()
-				return send_from_directory('./static/', path='calUniperso.ics')
-			return send_from_directory('./static/', path='calUniperso.ics')
+				return send_from_directory('./static/ics/', path='calUniperso.ics')
+			return send_from_directory('./static/ics/', path='calUniperso.ics')
 		except FileNotFoundError:
 			abort(404)
 	# try:
-	for i in os.listdir("./static/"):
+	for i in os.listdir("./static/ics/"):
 		if i == 'calUni '+group+' '+str(request.args)[20:-2].replace("(","").replace("',",":").replace("'","").replace(")","")+'.ics':
-			if (time.time()-int(os.path.getmtime('./static/calUni '+group+' '+str(request.args)[20:-2].replace("(","").replace("',",":").replace("'","").replace(")","")+'.ics'))>21600):
+			if (time.time()-int(os.path.getmtime('./static/ics/calUni '+group+' '+str(request.args)[20:-2].replace("(","").replace("',",":").replace("'","").replace(")","")+'.ics'))>21600):
 				cal(group,request.args)
-				return send_from_directory('./static/', path='calUni '+group+' '+str(request.args)[20:-2].replace("(","").replace("',",":").replace("'","").replace(")","")+'.ics')
-			return send_from_directory('./static/', path='calUni '+group+' '+str(request.args)[20:-2].replace("(","").replace("',",":").replace("'","").replace(")","")+'.ics')
+				return send_from_directory('./static/ics/', path='calUni '+group+' '+str(request.args)[20:-2].replace("(","").replace("',",":").replace("'","").replace(")","")+'.ics')
+			return send_from_directory('./static/ics/', path='calUni '+group+' '+str(request.args)[20:-2].replace("(","").replace("',",":").replace("'","").replace(")","")+'.ics')
 	cal(group,request.args)
-	return send_from_directory('./static/', path='calUni '+group+' '+str(request.args)[20:-2].replace("(","").replace("',",":").replace("'","").replace(")","")+'.ics')
+	return send_from_directory('./static/ics/', path='calUni '+group+' '+str(request.args)[20:-2].replace("(","").replace("',",":").replace("'","").replace(")","")+'.ics')
 	# except FileNotFoundError:
 	# 	abort(404)
 

@@ -46,7 +46,7 @@ def calperso():
 					loc = calendarinfo[i]['room'][:3]+', 33400 Talence, France'
 					desc = calendarinfo[i]['room'][4:]
 			addevent("["+calendarinfo[i]["category"]+"] "+calendarinfo[i]["module"],calendarinfo[i]["startint"]-200,calendarinfo[i]["endint"]-200,loc,desc,cal)
-			f = open('./static/calUniperso.ics', 'wb')
+			f = open('./static/ics/calUniperso.ics', 'wb')
 			f.write(cal.to_ical())
 			f.close()
 
@@ -126,7 +126,7 @@ def cal(group, argschiant):
 			else:
 				desc = calendarinfo[i]['notes']
 			addevent("["+calendarinfo[i]["category"]+"] "+calendarinfo[i]["module"],calendarinfo[i]["startint"]-200,calendarinfo[i]["endint"]-200,loc,desc,cal)
-			f = open('./static/calUni '+group+' '+str(argschiant)[20:-2].replace("(","").replace("',",":").replace("'","").replace(")","")+'.ics', 'wb')
+			f = open('./static/ics/calUni '+group+' '+str(argschiant)[20:-2].replace("(","").replace("',",":").replace("'","").replace(")","")+'.ics', 'wb')
 			f.write(cal.to_ical())
 			f.close()
 
