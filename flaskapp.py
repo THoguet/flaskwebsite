@@ -1,8 +1,6 @@
 from flask import *
-from markupsafe import escape
 from flask_socketio import SocketIO, emit, send, join_room, leave_room
-import json
-from makeIcs import calperso, cal
+from makeIcs import  cal
 import os
 import time
 app = Flask(__name__)
@@ -57,25 +55,18 @@ def quatrecentquatre():
 @app.route("/getcal/<group>/", methods=['GET'])
 def calUni(group=None):
 	if group == None:
-		try:
-			print('open')
-			if (time.time()-int(os.path.getmtime('./static/ics/calUniperso.ics'))>21600):
-				calperso()
-				return send_from_directory('./static/ics/', path='calUniperso.ics')
-			return send_from_directory('./static/ics/', path='calUniperso.ics')
-		except FileNotFoundError:
-			abort(404)
-	# try:
-	for i in os.listdir("./static/ics/"):
-		if i == 'calUni '+group+' '+str(request.args)[20:-2].replace("(","").replace("',",":").replace("'","").replace(")","")+'.ics':
-			if (time.time()-int(os.path.getmtime('./static/ics/calUni '+group+' '+str(request.args)[20:-2].replace("(","").replace("',",":").replace("'","").replace(")","")+'.ics'))>21600):
-				cal(group,request.args)
+		redirect(url_for('quatrecentquatre'))
+	try:
+		for i in os.listdir("./static/ics/"):
+			if i == 'calUni '+group+' '+str(request.args)[20:-2].replace("(","").replace("',",":").replace("'","").replace(")","")+'.ics':
+				if (time.time()-int(os.path.getmtime('./static/ics/calUni '+group+' '+str(request.args)[20:-2].replace("(","").replace("',",":").replace("'","").replace(")","")+'.ics'))>21600):
+					cal(group,request.args)
+					return send_from_directory('./static/ics/', path='calUni '+group+' '+str(request.args)[20:-2].replace("(","").replace("',",":").replace("'","").replace(")","")+'.ics')
 				return send_from_directory('./static/ics/', path='calUni '+group+' '+str(request.args)[20:-2].replace("(","").replace("',",":").replace("'","").replace(")","")+'.ics')
-			return send_from_directory('./static/ics/', path='calUni '+group+' '+str(request.args)[20:-2].replace("(","").replace("',",":").replace("'","").replace(")","")+'.ics')
-	cal(group,request.args)
-	return send_from_directory('./static/ics/', path='calUni '+group+' '+str(request.args)[20:-2].replace("(","").replace("',",":").replace("'","").replace(")","")+'.ics')
-	# except FileNotFoundError:
-	# 	abort(404)
+		cal(group,request.args)
+		return send_from_directory('./static/ics/', path='calUni '+group+' '+str(request.args)[20:-2].replace("(","").replace("',",":").replace("'","").replace(")","")+'.ics')
+	except FileNotFoundError:
+		abort(404)
 
 @app.route("/yt")
 @app.route("/yt/")
@@ -120,4 +111,4 @@ def leaveroom(room,username="Ano"):
 	leave_room(room)
 
 if __name__ == '__main__':
-	socketio.run(app, debug=True)
+	socketio.run(app, host='0.0.0.0')
