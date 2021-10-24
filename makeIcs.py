@@ -1,54 +1,7 @@
 from icalendar import Calendar, Event, vDatetime, vText, vCalAddress
 import datetime
-import time
+from backports.zoneinfo import ZoneInfo
 from getcalendar import getcalendar
-
-def calperso():
-	cal = Calendar()
-	cal.add('prodid', 'EDT Université 2021-2022 IN301A42')
-	cal.add('version', '2.0')
-	calendarinfo = getcalendar('IN301A42')
-
-	for i in range(len(calendarinfo)):
-		cbn = 1
-		if calendarinfo[i]["module"][:8] == '4TTV315U':
-			calendarinfo[i]["module"] = 'Anglais'
-			if calendarinfo[i]["room"] != 'A21/ Salle 162':
-				cbn = 0
-			if ((datetime.date(int(calendarinfo[i]["date"][0]) ,int(calendarinfo[i]["date"][1]), int(calendarinfo[i]["date"][2])).isocalendar()[1]) % 2) == 0:
-				cbn = 0
-		elif calendarinfo[i]["module"][:8] == '4TINA01U':
-			calendarinfo[i]["module"] = 'Programmation Fonctionnelle'
-		elif calendarinfo[i]["module"][:8] == '4TIN303U':
-			calendarinfo[i]["module"] = 'Programmation C'
-		elif calendarinfo[i]["module"][:8] == '4TIN403U':
-			calendarinfo[i]["module"] = 'Projets technologiques'
-		elif calendarinfo[i]["module"][:8] == '4TIN310U':
-			calendarinfo[i]["module"] = 'Réseau'
-		elif calendarinfo[i]["module"][:8] == '4TIN302U':
-			calendarinfo[i]["module"] = 'Algo des structures données élémentaire'
-		elif calendarinfo[i]["module"][:8] == "4TPMA01U":
-			calendarinfo[i]["module"] = 'Connaissance de l\'entreprise'
-			if calendarinfo[i]["category"] != "Cours":
-				if calendarinfo[i]["room"] != 'A29/ Salle 101':
-					cbn = 0
-		if calendarinfo[i]["module"][:8] == "4TTVA35U":
-			cbn = 0
-		if (calendarinfo[i]["module"][:8] != "4TTV303U" and calendarinfo[i]["module"][:8] != "4TTV402U" and calendarinfo[i]["module"][:8] != "4TTV403U" and calendarinfo[i]["module"][:8] != "4TIN309U"):
-			cbn = 0
-		if cbn:
-			loc = ''
-			if calendarinfo[i]["room"] != "":
-				if calendarinfo[i]['room'][3] != '/':
-					loc = 'A28, 33400 Talence, France'
-					desc = calendarinfo[i]['room'][17:]
-				else:
-					loc = calendarinfo[i]['room'][:3]+', 33400 Talence, France'
-					desc = calendarinfo[i]['room'][4:]
-			addevent("["+calendarinfo[i]["category"]+"] "+calendarinfo[i]["module"],calendarinfo[i]["startint"]-200,calendarinfo[i]["endint"]-200,loc,desc,cal)
-			f = open('./static/ics/calUniperso.ics', 'wb')
-			f.write(cal.to_ical())
-			f.close()
 
 def exist(tab,test):
 	if test in tab:
@@ -133,8 +86,8 @@ def cal(group, argschiant):
 def addevent(summary,startint,endint,location,description,cal):
 	event = Event()
 	event.add('summary', summary)
-	event.add('dtstart', datetime.datetime.strptime(str(startint),'%Y%m%d%H%M'))
-	event.add('dtend', datetime.datetime.strptime(str(endint),'%Y%m%d%H%M'))
+	event.add('dtstart', datetime.datetime(int("20"+str(startint)[:2]),int(str(startint)[2:4]),int(str(startint)[4:6]),int(str(startint)[6:8]),int(str(startint)[8:10]),tzinfo=ZoneInfo("Europe/Paris")))
+	event.add('dtend', datetime.datetime(int("20"+str(endint)[:2]),int(str(endint)[2:4]),int(str(endint)[4:6]),int(str(endint)[6:8]),int(str(endint)[8:10]),tzinfo=ZoneInfo("Europe/Paris")))
 	event['location'] = vText(location)
 	event['description'] = vText(description)
 	cal.add_component(event)
