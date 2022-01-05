@@ -1,5 +1,4 @@
 from flask import *
-from flask_socketio import SocketIO, emit, send, join_room, leave_room
 from makeIcs import cal
 import os
 import time
@@ -7,8 +6,6 @@ import time
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '***REMOVED***'
 app.secret_key = b"***REMOVED***"
-socketio = SocketIO(app, cors_allowed_origins='*')
-
 
 def exist(tab, test):
 	return test in tab
@@ -66,22 +63,22 @@ def calUni(group=None):
 	if group == None:
 		redirect(url_for('quatrecentquatre'))
 	try:
-		for i in os.listdir("./static/ics/"):
-			if i == 'calUni ' + group + ' ' + str(request.args)[20:-2].replace("(", "").replace("',", ":").replace("'", "").replace(")", "") + '.ics':
+		for i in os.listdir("/var/www/html/static/ics/"):
+			if i == 'calUni ' + group + ' ' + str(request.args)[20:-2].replace("(", "").replace(" ","_").replace("',", ":").replace("'", "").replace(")", "") + '.ics':
 				if (time.time() - int(
-				    os.path.getmtime('./static/ics/calUni ' + group + ' ' +
-				                     str(request.args)[20:-2].replace("(", "").replace("',", ":").replace("'", "").replace(")", "") + '.ics')) > 21600):
+					os.path.getmtime('/var/www/html/static/ics/calUni ' + group + ' ' +
+										str(request.args)[20:-2].replace("(", "").replace(" ","_").replace("',", ":").replace("'", "").replace(")", "") + '.ics')) > 21600):
 					cal(group, request.args)
-					return send_from_directory('./static/ics/',
-					                           path='calUni ' + group + ' ' +
-					                           str(request.args)[20:-2].replace("(", "").replace("',", ":").replace("'", "").replace(")", "") + '.ics')
-				return send_from_directory('./static/ics/',
-				                           path='calUni ' + group + ' ' +
-				                           str(request.args)[20:-2].replace("(", "").replace("',", ":").replace("'", "").replace(")", "") + '.ics')
+					return send_from_directory('/var/www/html/static/ics/',
+												path='calUni ' + group + ' ' +
+												str(request.args)[20:-2].replace("(", "").replace(" ","_").replace("',", ":").replace("'", "").replace(")", "") + '.ics')
+				return send_from_directory('/var/www/html/static/ics/',
+											path='calUni ' + group + ' ' +
+											str(request.args)[20:-2].replace("(", "").replace(" ","_").replace("',", ":").replace("'", "").replace(")", "") + '.ics')
 		cal(group, request.args)
-		return send_from_directory('./static/ics/',
-		                           path='calUni ' + group + ' ' +
-		                           str(request.args)[20:-2].replace("(", "").replace("',", ":").replace("'", "").replace(")", "") + '.ics')
+		return send_from_directory('/var/www/html/static/ics/',
+									path='calUni ' + group + ' ' +
+									str(request.args)[20:-2].replace("(", "").replace(" ","_").replace("',", ":").replace("'", "").replace(")", "") + '.ics')
 	except FileNotFoundError:
 		abort(404)
 
@@ -110,31 +107,5 @@ def admin():
 		return f'Logged in as {session["username"]}'
 	return redirect(url_for('login'))
 
-
-@socketio.on('pause')
-def pauseVideo(time, pvid, room, dst, username="Ano"):
-	join_room(room)
-	emit('pause', (time, username, pvid, dst), to=room, skip_sid=request.sid)
-
-
-@socketio.on('play')
-def playVideo(time, pvid, room, dst, username="Ano"):
-	join_room(room)
-	emit('play', (time, username, pvid, dst), to=room, skip_sid=request.sid)
-
-
-@socketio.on('join')
-def joinroom(room, username="Ano"):
-	join_room(room)
-	emit('join', username, to=room, skip_sid=request.sid)
-
-
-@socketio.on('leave')
-def leaveroom(room, username="Ano"):
-	join_room(room)
-	emit('leave', username, to=room, skip_sid=request.sid)
-	leave_room(room)
-
-
 if __name__ == '__main__':
-	socketio.run(app, host='0.0.0.0')
+	app.run()
