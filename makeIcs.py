@@ -42,7 +42,7 @@ def cal(group, args):
 					desc = calendarinfo[i]['room'][4:] + '\n' + calendarinfo[i]['notes']
 			else:
 				desc = calendarinfo[i]['notes']
-			addevent("[" + calendarinfo[i]["category"] + "] " + calendarinfo[i]["module"], calendarinfo[i]["startint"] - 200, calendarinfo[i]["endint"] - 200,
+			addevent("[" + calendarinfo[i]["category"] + "] " + calendarinfo[i]["module"], calendarinfo[i]["startint"], calendarinfo[i]["endint"],
 			         loc, desc, cal)
 			f = open('/var/www/html/static/ics/calUni ' + group + ' ' + str(args)[20:-2].replace("(", "").replace(" ","_").replace("',", ":").replace("'", "").replace(")", "") + '.ics',
 			         'wb')
