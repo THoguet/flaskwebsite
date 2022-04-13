@@ -36,10 +36,11 @@ def cal(group, args):
 					desc = calendarinfo[i]['room'][4:] + '\n' + calendarinfo[i]['notes']
 			else:
 				desc = calendarinfo[i]['notes']
-			addevent("[" + calendarinfo[i]["category"] + "] " + calendarinfo[i]["module"], calendarinfo[i]["startint"], calendarinfo[i]["endint"], loc, desc, cal)
+			addevent("[" + calendarinfo[i]["category"] + "] " + calendarinfo[i]["module"], calendarinfo[i]["startint"], calendarinfo[i]["endint"], loc, desc,
+			         cal)
 			f = open(
-			    '/var/www/html/static/ics/calUni ' + group + ' ' + str(args)[20:-2].replace("(", "").replace(" ", "_").replace("',", ":").replace("'", "").replace(")", "") +
-			    '.ics', 'wb')
+			    '/var/www/html/static/ics/calUni ' + group + ' ' +
+			    str(args)[20:-2].replace("(", "").replace(" ", "_").replace("',", ":").replace("'", "").replace(")", "") + '.ics', 'wb')
 			f.write(cal.to_ical())
 			f.close()
 
@@ -57,7 +58,12 @@ def addevent(summary, startint, endint, location, description, cal):
 	                      tzinfo=ZoneInfo("Europe/Paris")))
 	event.add(
 	    'dtend',
-	    datetime.datetime(int(str(endint)[:4]), int(str(endint)[4:6]), int(str(endint)[6:8]), int(str(endint)[8:10]), int(str(endint)[10:12]), tzinfo=ZoneInfo("Europe/Paris")))
+	    datetime.datetime(int(str(endint)[:4]),
+	                      int(str(endint)[4:6]),
+	                      int(str(endint)[6:8]),
+	                      int(str(endint)[8:10]),
+	                      int(str(endint)[10:12]),
+	                      tzinfo=ZoneInfo("Europe/Paris")))
 	event['location'] = vText(location)
 	event['description'] = vText(description)
 	cal.add_component(event)

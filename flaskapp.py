@@ -7,6 +7,7 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = '***REMOVED***'
 app.secret_key = b"***REMOVED***"
 
+
 def exist(tab, test):
 	return test in tab
 
@@ -64,21 +65,25 @@ def calUni(group=None):
 		redirect(url_for('quatrecentquatre'))
 	try:
 		for i in os.listdir("/var/www/html/static/ics/"):
-			if i == 'calUni ' + group + ' ' + str(request.args)[20:-2].replace("(", "").replace(" ","_").replace("',", ":").replace("'", "").replace(")", "") + '.ics':
+			if i == 'calUni ' + group + ' ' + str(request.args)[20:-2].replace("(", "").replace(" ", "_").replace("',", ":").replace("'", "").replace(
+			    ")", "") + '.ics':
 				if (time.time() - int(
-					os.path.getmtime('/var/www/html/static/ics/calUni ' + group + ' ' +
-										str(request.args)[20:-2].replace("(", "").replace(" ","_").replace("',", ":").replace("'", "").replace(")", "") + '.ics')) > 21600):
+				    os.path.getmtime('/var/www/html/static/ics/calUni ' + group + ' ' +
+				                     str(request.args)[20:-2].replace("(", "").replace(" ", "_").replace("',", ":").replace("'", "").replace(")", "") + '.ics'))
+				    > 21600):
 					cal(group, request.args)
-					return send_from_directory('/var/www/html/static/ics/',
-												path='calUni ' + group + ' ' +
-												str(request.args)[20:-2].replace("(", "").replace(" ","_").replace("',", ":").replace("'", "").replace(")", "") + '.ics')
+					return send_from_directory(
+					    '/var/www/html/static/ics/',
+					    path='calUni ' + group + ' ' +
+					    str(request.args)[20:-2].replace("(", "").replace(" ", "_").replace("',", ":").replace("'", "").replace(")", "") + '.ics')
 				return send_from_directory('/var/www/html/static/ics/',
-											path='calUni ' + group + ' ' +
-											str(request.args)[20:-2].replace("(", "").replace(" ","_").replace("',", ":").replace("'", "").replace(")", "") + '.ics')
+				                           path='calUni ' + group + ' ' +
+				                           str(request.args)[20:-2].replace("(", "").replace(" ", "_").replace("',", ":").replace("'", "").replace(")", "") +
+				                           '.ics')
 		cal(group, request.args)
 		return send_from_directory('/var/www/html/static/ics/',
-									path='calUni ' + group + ' ' +
-									str(request.args)[20:-2].replace("(", "").replace(" ","_").replace("',", ":").replace("'", "").replace(")", "") + '.ics')
+		                           path='calUni ' + group + ' ' +
+		                           str(request.args)[20:-2].replace("(", "").replace(" ", "_").replace("',", ":").replace("'", "").replace(")", "") + '.ics')
 	except FileNotFoundError:
 		abort(404)
 
@@ -106,6 +111,7 @@ def admin():
 	if 'username' in session:
 		return f'Logged in as {session["username"]}'
 	return redirect(url_for('login'))
+
 
 if __name__ == '__main__':
 	app.run()
