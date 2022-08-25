@@ -6,7 +6,7 @@ from getcalendar import getcalendar
 
 def cal(group, args):
 	cal = Calendar()
-	cal.add('prodid', 'EDT Université 2021-2022 ' + group)
+	cal.add('prodid', 'EDT Université 2022-2023 ' + group)
 	cal.add('version', '2.0')
 	calendarinfo = getcalendar(group)
 	for i in range(len(calendarinfo)):
