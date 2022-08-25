@@ -88,11 +88,6 @@ def calUni(group=None):
 		abort(404)
 
 
-@app.route("/map")
-def mcMap():
-	return app.send_static_file("/var/www/html/static/map/thibaultlamerde/index.html")
-
-
 @app.route("/yt")
 @app.route("/yt/")
 def ytgetlink():
