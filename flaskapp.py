@@ -90,7 +90,7 @@ def calUni(group=None):
 
 @app.route("/map")
 def mcMap():
-	return send_from_directory("/var/www/html/static/map/thibaultlamerde/")
+	return app.send_static_file("/var/www/html/static/map/thibaultlamerde/index.html")
 
 
 @app.route("/yt")
