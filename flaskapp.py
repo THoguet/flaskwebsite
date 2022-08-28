@@ -62,7 +62,7 @@ def quatrecentquatre():
 @app.route("/getcal/<group>/", methods=['GET'])
 def calUni(group=None):
 	if group == None:
-		redirect(url_for('quatrecentquatre'))
+		return redirect(url_for('quatrecentquatre'))
 	try:
 		for i in os.listdir("/var/www/html/static/ics/"):
 			if i == 'calUni ' + group + ' ' + str(request.args)[20:-2].replace("(", "").replace(" ", "_").replace("',", ":").replace("'", "").replace(
