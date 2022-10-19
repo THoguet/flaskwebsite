@@ -6,18 +6,18 @@ from getcalendar import getcalendar
 
 def cal(group, args):
 	cal = Calendar()
-	cal.add('prodid', 'EDT Université 2021-2022 ' + group)
+	cal.add('prodid', 'EDT Université 2022-2023 ' + group)
 	cal.add('version', '2.0')
 	calendarinfo = getcalendar(group)
 	for i in range(len(calendarinfo)):
 		ignore = False
 		if calendarinfo[i]["module"] != None:
-			if calendarinfo[i]["module"][:8] in args and args[calendarinfo[i]["module"][:8]] != 0:
+			if calendarinfo[i]["module"][:8] in args:
+				if args[calendarinfo[i]["module"][:8]] == 0:
+					ignore = True
 				if args[calendarinfo[i]["module"][:8]] != '1':
 					if calendarinfo[i]["room"][-3:] != args[calendarinfo[i]["module"][:8]]:
 						ignore = True
-			else:
-				ignore = True
 			if ("showcode" in args and args["showcode"] == '0'):
 				calendarinfo[i]["module"] = calendarinfo[i]["module"][9:]
 		else:
