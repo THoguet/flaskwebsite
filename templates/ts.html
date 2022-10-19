@@ -1,85 +1,22 @@
-<!DOCTYPE html>
-<html>
-	<head>
-		<meta name="description" content="Ici, vous êtes sur le site de nessar, plus precisement dans la partie consacré au Teamspeak, elle affiche l'ip de celui-ci ainsi que quelques infos." />
-		<title>Site de Nessar</title>
-		<!--Image dans l'onglet -->
-		<link rel="shortcut icon" href="{{url_for('static', filename='image/n.png')}}" type="image/x-icon">
-		
-		<!--Pour les éèàç -->
-		<meta charset="utf-8" />
-		<!--Pour les mobiles -->
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<!--CSS -->
-		<link type="text/css" rel="stylesheet" href="{{url_for('static', filename='stylesheet.css')}}">
-		<style>
-			@import url('https://fonts.googleapis.com/css?family=Indie+Flower|Source+Sans+Pro|Yrsa');
-		</style>
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script> 
-		<script> 
-			$(function(){
-				$(".menu").load("menu.html"); 
-			});
-		</script>
-	</head>
-	<body>
-		<script>
-
-			const color = [
-				"#2196f3",
-				"#e91e63",
-				"#ffeb3b",
-				"#74ff1d"
-			];
-
-			function createSquare(){
-				const section = document.querySelector("body");
-				const square = document.createElement("span");
-
-				var size = Math.random() * 50;
-
-				square.style.width = 20 + size + 'px';
-				square.style.height = 20 + size + 'px';
-
-				square.style.top = Math.random() * innerHeight + 'px';
-				square.style.left = Math.random() * innerWidth + 'px';
-
-				const bg = color[Math.floor(Math.random() * color.length)];
-				square.style.background = bg;
-
-				section.appendChild(square);
-
-				setTimeout(() =>{
-					square.remove()
-				},5000)
-			}
-
-			setInterval(createSquare, 150)
-		</script>
-
-		<div class="corps">
-			<header>
-				<h1 class="titre">Site de Nessar</h1>
-			</header>
-			<div class="menu"></div>
-			<div>
-				<div class="paddingdiv" >
-					<aside class="imagets">
-						<img class="imageO" src="https://ts3index.com/banner/s500_263770.png">
-						<img class="imageM" src="https://ts3index.com/banner/s410_263770.png">
-					</aside>
-					<div class="divts" style="width: 50%; text-align: center;">
-						<img class="imagegifts" src="{{url_for('static', filename='image/ts.gif')}}" />
-						<a class="bouton" href="ts3server://ts.nessar.fr" target="_blank">
-							<div id="bouton">
-								<p style="padding-top:1px;">Rejoindre le TS</p>
-							</div>
-						</a>
-						<p>Si vous n'arrivez pas à vous connecter voici l'ip: <u>ts.nessar.fr</u></p>
+{% extends "default.html" %}
+{% block title %}Index{% endblock %}
+{% block content %}
+	<div>
+		<div class="paddingdiv" >
+			<aside class="imagets">
+				<img class="imageO" src="https://ts3index.com/banner/s500_263770.png">
+				<img class="imageM" src="https://ts3index.com/banner/s410_263770.png">
+			</aside>
+			<div class="divts" style="width: 50%; text-align: center;">
+				<img class="imagegifts" src="{{url_for('static', filename='image/ts.gif')}}" />
+				<a class="bouton" href="ts3server://ts.nessar.fr" target="_blank">
+					<div id="bouton">
+						<p style="padding-top:1px;">Rejoindre le TS</p>
 					</div>
-					<!--<center><h2>Nouveau système de ranks et de statistiques disponible a cette adresse :</h2><a href="http://ktfaction.fr/ranksystem/"><div id="bouton" style="padding:0px">Cliquez ici</div></a></center>-->
-				</div>
+				</a>
+				<p>Si vous n'arrivez pas à vous connecter voici l'ip: <u>ts.nessar.fr</u></p>
 			</div>
+			<!--<center><h2>Nouveau système de ranks et de statistiques disponible a cette adresse :</h2><a href="http://ktfaction.fr/ranksystem/"><div id="bouton" style="padding:0px">Cliquez ici</div></a></center>-->
 		</div>
-	</body>
-</html>
+	</div>
+{% endblock %}

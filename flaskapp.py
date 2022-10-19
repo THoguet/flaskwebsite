@@ -88,24 +88,6 @@ def calUni(group=None):
 		abort(404)
 
 
-@app.route("/yt")
-@app.route("/yt/")
-def ytgetlink():
-	return render_template("ytask.html")
-
-
-@app.route("/yt/player", methods=['GET', 'POST'])
-def yt():
-	if exist(request.form, "linkyt") and request.form['linkyt'] != "":
-		return redirect(url_for('player', link=str(request.form['linkyt'][32:])))
-	return redirect(url_for('ytgetlink'))
-
-
-@app.route("/yt/player/<link>", methods=['GET', 'POST'])
-def player(link):
-	return render_template("yt.html", linkyt=link)
-
-
 @app.route("/admin", methods=['GET', 'POST'])
 def admin():
 	if 'username' in session:

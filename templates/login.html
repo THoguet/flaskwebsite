@@ -1,78 +1,17 @@
-<!DOCTYPE html>
-<html>
-	<head>
-		<title>Site de Nessar</title>
-		<!--Image dans l'onglet -->
-		<link rel="shortcut icon" href="{{url_for('static', filename='image/n.png')}}" type="image/x-icon">
-		
-		<!--Pour les éèàç -->
-		<meta charset="utf-8" />
-		<!--Pour les mobiles -->
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<!--CSS -->
-		<link type="text/css" rel="stylesheet" href="{{url_for('static', filename='stylesheet.css')}}">
-		<style>
-			@import url('https://fonts.googleapis.com/css?family=Indie+Flower|Source+Sans+Pro|Yrsa');
-		</style>
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script> 
-		<script> 
-			$(function(){
-				$(".menu").load("menu.html"); 
-			});
-		</script>
-	</head>
-	<body>
-		<script>
-
-			const color = [
-				"#2196f3",
-				"#e91e63",
-				"#ffeb3b",
-				"#74ff1d"
-			];
-
-			function createSquare(){
-				const section = document.querySelector("body");
-				const square = document.createElement("span");
-
-				var size = Math.random() * 50;
-
-				square.style.width = 20 + size + 'px';
-				square.style.height = 20 + size + 'px';
-
-				square.style.top = Math.random() * innerHeight + 'px';
-				square.style.left = Math.random() * innerWidth + 'px';
-
-				const bg = color[Math.floor(Math.random() * color.length)];
-				square.style.background = bg;
-
-				section.appendChild(square);
-
-				setTimeout(() =>{
-					square.remove()
-				},5000)
-			}
-
-			setInterval(createSquare, 150)
-		</script>
-		<div class="corps">
-			<header>
-				<h1 class="titre">Site de Nessar</h1>
-			</header>
-			<div class="menu"></div>
-			<div style="height: 80%;margin-bottom: 1%;">
-                <h1>Panneau Admin</h1>
-                <br>
-                <form action="{{url_for('login')}}" method="post">
-                    <label for="username">Nom d'utilisateur : </label>
-                    <input type="text" name="username">
-                    <label type="password" for="pswd">Mot de passe : </label>
-                    <input name="pswd">
-                    <label for="stayconnected">Resté connecté ?</label>
-                    <input type="checkbox" name="stayconnected">
-					<input class="inputbutton" type="submit">
-                </form>
-			</div>
-		</div>
-	</body>
-</html>
+{% extends "default.html" %}
+{% block title %}Index{% endblock %}
+{% block content %}
+	<div style="height: 80%;margin-bottom: 1%;">
+		<h1>Panneau Admin</h1>
+		<br>
+		<form action="{{url_for('login')}}" method="post">
+			<label for="username">Nom d'utilisateur : </label>
+			<input type="text" name="username">
+			<label type="password" for="pswd">Mot de passe : </label>
+			<input name="pswd">
+			<label for="stayconnected">Resté connecté ?</label>
+			<input type="checkbox" name="stayconnected">
+			<input class="inputbutton" type="submit">
+		</form>
+	</div>
+{% endblock %}

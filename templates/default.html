@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		{% block head %}
+		<title>{% block title %}{% endblock %} - Site de Nessar</title>
+		<!--Image dans l'onglet -->
+		<link rel="shortcut icon" href="{{url_for('static', filename='image/n.png')}}" type="image/x-icon">
+		
+		<!--Pour les éèàç -->
+		<meta charset="utf-8" />
+		<!--Pour les mobiles -->
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<!--CSS -->
+		<link type="text/css" rel="stylesheet" href="{{url_for('static', filename='stylesheet.css')}}">
+		<style>
+			@import url('https://fonts.googleapis.com/css?family=Indie+Flower|Source+Sans+Pro|Yrsa');
+		</style>
+		{% endblock %}
+	</head>
+	<body>
+		<script>
+
+			const color = [
+				"#2196f3",
+				"#e91e63",
+				"#ffeb3b",
+				"#74ff1d"
+			];
+
+			function createSquare(){
+				const section = document.querySelector("body");
+				const square = document.createElement("span");
+
+				var size = Math.random() * 50;
+
+				square.style.width = 20 + size + 'px';
+				square.style.height = 20 + size + 'px';
+
+				square.style.top = Math.random() * (innerHeight - 20 + size) + 'px';
+				square.style.left = Math.random() * (innerWidth - 20 + size) + 'px';
+
+				const bg = color[Math.floor(Math.random() * color.length)];
+				square.style.background = bg;
+
+				section.appendChild(square);
+
+				setTimeout(() =>{
+					square.remove()
+				},5000)
+			}
+
+			setInterval(createSquare, 150)
+		</script>
+		<div class="corps">
+			<header>
+				<h1 class="titre">Site de Nessar</h1>
+			</header>
+			<div class="menu">
+				<ul style="padding-left: 0px;margin-bottom:0px;">
+					<li><a href="{{url_for('index')}}">Accueil</a></li>
+					<li><a href="{{url_for('ts')}}">Teamspeak</a></li>
+					<li><a href="{{url_for('twitch')}}">Twitch</a></li>
+					<!--<li><a href="">Forum</a></li>-->
+					</ul>
+			</div>
+			{% block content %}{% endblock %}
+		</div>
+	</body>
+</html>
