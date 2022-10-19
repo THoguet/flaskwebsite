@@ -80,6 +80,7 @@ def calUni(group=None):
 				                           path='calUni ' + group + ' ' +
 				                           str(request.args)[20:-2].replace("(", "").replace(" ", "_").replace("',", ":").replace("'", "").replace(")", "") +
 				                           '.ics')
+		print(group, request.args)
 		cal(group, request.args)
 		return send_from_directory('/var/www/html/static/ics/',
 		                           path='calUni ' + group + ' ' +

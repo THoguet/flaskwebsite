@@ -28,12 +28,13 @@ def cal(group, args):
 			if calendarinfo[i]['notes'] == None:
 				calendarinfo[i]['notes'] = ""
 			if calendarinfo[i]["room"] != "":
-				if calendarinfo[i]['room'][3] != '/':
+				if "CREMI" in calendarinfo[i]['room']:
 					loc = 'A28, 33400 Talence, France'
 					desc = calendarinfo[i]['room'][17:] + '\n' + calendarinfo[i]['notes']
-				else:
-					loc = calendarinfo[i]['room'][:3] + ', 33400 Talence, France'
-					desc = calendarinfo[i]['room'][4:] + '\n' + calendarinfo[i]['notes']
+				elif '/' in calendarinfo[i]['room']:
+					slashindex = calendarinfo[i]['room'].find('/')
+					loc = calendarinfo[i]['room'][:slashindex] + ', 33400 Talence, France'
+					desc = calendarinfo[i]['room'][slashindex + 1:] + '\n' + calendarinfo[i]['notes']
 			else:
 				desc = calendarinfo[i]['notes']
 			addevent("[" + calendarinfo[i]["category"] + "] " + calendarinfo[i]["module"], calendarinfo[i]["startint"], calendarinfo[i]["endint"], loc, desc,
