@@ -37,6 +37,9 @@ def cal(group, args):
 					desc = calendarinfo[i]['room'][slashindex + 1:] + '\n' + calendarinfo[i]['notes']
 			else:
 				desc = calendarinfo[i]['notes']
+			for info in calendarinfo[i]:
+				if calendarinfo[i][info] == None:
+					calendarinfo[i][info] = "???"
 			addevent("[" + calendarinfo[i]["category"] + "] " + calendarinfo[i]["module"], calendarinfo[i]["startint"], calendarinfo[i]["endint"], loc, desc,
 			         cal)
 			f = open(
