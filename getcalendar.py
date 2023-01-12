@@ -40,8 +40,8 @@ class WebApiURL:
 
 def get_calendar(group: str) -> dict:
 	data = {
-	    'start': '2022-09-01',
-	    'end': '2022-12-31',
+	    'start': '2023-01-01',
+	    'end': '2023-07-01',
 	    'resType': '103',
 	    'calView': 'agendaDay',
 	    'federationIds[]': group,
