@@ -22,11 +22,6 @@ def ts():
 	return render_template("ts.html")
 
 
-@app.route("/twitch")
-def twitch():
-	return render_template("twitch.html")
-
-
 @app.route("/login", methods=['GET', 'POST'])
 def login():
 	if request.cookies.get('username') != None:
