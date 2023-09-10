@@ -38,10 +38,15 @@ class WebApiURL:
 	SIDEBAR = 'GetSideBarEvent'
 
 
-def get_calendar(group: str) -> dict:
+def get_calendar(group: str, year: str, semester: bool) -> dict:
+	monthStart = '9'
+	monthEnd = '12'
+	if semester:
+		monthStart = '1'
+		monthEnd = '7'
 	data = {
-	    'start': '2023-01-01',
-	    'end': '2023-07-01',
+	    'start': year + '-' + monthStart + '-01',
+	    'end': year + '-' + monthEnd + '-31',
 	    'resType': '103',
 	    'calView': 'agendaDay',
 	    'federationIds[]': group,
@@ -93,8 +98,8 @@ def parse_event(event: dict) -> dict:
 	return parsed_event
 
 
-def getcalendar(group):
-	id_cal = get_calendar(group)
+def getcalendar(group, year: str, semester: bool):
+	id_cal = get_calendar(group, year, semester)
 	sche_id_dict = {}
 	for id, event in id_cal.items():
 		if event['eventCategory'] != 'Vacances':

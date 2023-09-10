@@ -5,10 +5,16 @@ from getcalendar import getcalendar
 
 
 def cal(group, args):
+	year = datetime.datetime.now().year
+	month = datetime.datetime.now().month
+	semester = False
+	if month < 9:
+		year -= 1
+		semester = True
 	cal = Calendar()
-	cal.add('prodid', 'EDT Université 2022-2023 ' + group)
+	cal.add('prodid', 'EDT Université ' + str(year) + '-' + str(year + 1) + ' ' + group)
 	cal.add('version', '2.0')
-	calendarinfo = getcalendar(group)
+	calendarinfo = getcalendar(group, str(year), semester)
 	for i in range(len(calendarinfo)):
 		ignore = False
 		if calendarinfo[i]["module"] != None:
@@ -43,7 +49,7 @@ def cal(group, args):
 			addevent("[" + calendarinfo[i]["category"] + "] " + calendarinfo[i]["module"], calendarinfo[i]["startint"], calendarinfo[i]["endint"], loc, desc,
 			         cal)
 			f = open(
-			    '/var/www/html/static/ics/calUni ' + group + ' ' +
+			    '/var/www/html/flask/static/ics/calUni ' + group + ' ' +
 			    str(args)[20:-2].replace("(", "").replace(" ", "_").replace("',", ":").replace("'", "").replace(")", "") + '.ics', 'wb')
 			f.write(cal.to_ical())
 			f.close()

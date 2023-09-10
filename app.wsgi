@@ -1,5 +1,5 @@
 import sys
 
-sys.path.insert(0,"/var/www/html")
+sys.path.insert(0,"/var/www/html/flask")
 
 from flaskapp import app as application
