@@ -7,8 +7,9 @@ from getcalendar import getcalendar
 def cal(group, args):
 	year = datetime.datetime.now().year
 	month = datetime.datetime.now().month
+	day = datetime.datetime.now().day
 	semester = False
-	if month < 9:
+	if month < 9 or (month == 12 and day > 23):
 		year -= 1
 		semester = True
 	cal = Calendar()
