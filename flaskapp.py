@@ -7,7 +7,7 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = '6KN7u!H2HFpD3V7fk&Q#E'
 app.secret_key = b"6KN7u!H2HFpD3V7fk&Q#E"
 
-DIR = "/home/nessar/flaskwebsite/static/ics/"
+DIR = "/var/www/html/flask/static/ics/"
 
 
 def exist(tab, test):
