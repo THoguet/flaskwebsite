@@ -10,11 +10,14 @@ def cal(group, args, dir, fileName):
 	day = datetime.datetime.now().day
 	semester = False
 	if month < 9 or (month == 12 and day >= 23):
-		if month < 9:
-			year -= 1
+		if month == 12:
+			year += 1
 		semester = True
 	cal = Calendar()
-	cal.add('prodid', 'EDT Université ' + str(year) + '-' + str(year + 1) + ' ' + group)
+	yearDisplay = str(year) + '-' + str(year + 1)
+	if semester:
+		yearDisplay = str(year - 1) + '-' + str(year)
+	cal.add('prodid', 'EDT Université ' + yearDisplay + ' ' + group)
 	cal.add('version', '2.0')
 	calendarinfo = getcalendar(group, str(year), semester)
 	for i in range(len(calendarinfo)):
