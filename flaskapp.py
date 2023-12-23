@@ -7,6 +7,8 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = '6KN7u!H2HFpD3V7fk&Q#E'
 app.secret_key = b"6KN7u!H2HFpD3V7fk&Q#E"
 
+DIR = "/var/www/html/flask/static/ics/"
+
 
 def exist(tab, test):
 	return test in tab
@@ -52,33 +54,25 @@ def quatrecentquatre():
 	return render_template('404.html')
 
 
+def getNameCal(group: str, request):
+	return "calUni_" + group + "_" + str(request.args)[20:-2].replace("(", "").replace(" ", "_").replace("',", ":").replace("'", "").replace(")", "") + ".ics"
+
+
 @app.route("/getcal/", methods=['GET'])
 @app.route("/getcal/<group>", methods=['GET'])
 @app.route("/getcal/<group>/", methods=['GET'])
 def calUni(group=None):
 	if group == None:
 		return redirect(url_for('quatrecentquatre'))
-	for i in os.listdir("/var/www/html/flask/static/ics/"):
-		if i == 'calUni ' + group + ' ' + str(request.args)[20:-2].replace("(", "").replace(" ", "_").replace("',", ":").replace("'", "").replace(")",
-		                                                                                                                                          "") + '.ics':
-			if (time.time() - int(
-			    os.path.getmtime('/var/www/html/flask/static/ics/calUni ' + group + ' ' +
-			                     str(request.args)[20:-2].replace("(", "").replace(" ", "_").replace("',", ":").replace("'", "").replace(")", "") + '.ics'))
-			    > 21600):
+	for i in os.listdir(DIR):
+		if i == getNameCal(group, request):
+			if (time.time() - int(os.path.getmtime(DIR + getNameCal(group, request))) > 21600):
 				cal(group, request.args)
-				return send_from_directory('/var/www/html/flask/static/ics/',
-				                           path='calUni ' + group + ' ' +
-				                           str(request.args)[20:-2].replace("(", "").replace(" ", "_").replace("',", ":").replace("'", "").replace(")", "") +
-				                           '.ics')
-			return send_from_directory('/var/www/html/flask/static/ics/',
-			                           path='calUni ' + group + ' ' +
-			                           str(request.args)[20:-2].replace("(", "").replace(" ", "_").replace("',", ":").replace("'", "").replace(")", "") +
-			                           '.ics')
+				return send_from_directory(DIR, path=getNameCal(group, request))
+			return send_from_directory(DIR, path=getNameCal(group, request))
 	print(group, request.args)
-	cal(group, request.args)
-	return send_from_directory('/var/www/html/flask/static/ics/',
-	                           path='calUni ' + group + ' ' +
-	                           str(request.args)[20:-2].replace("(", "").replace(" ", "_").replace("',", ":").replace("'", "").replace(")", "") + '.ics')
+	cal(group, request.args, DIR, getNameCal(group, request))
+	return send_from_directory(DIR, path=getNameCal(group, request))
 
 
 @app.route("/admin", methods=['GET', 'POST'])

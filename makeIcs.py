@@ -1,16 +1,17 @@
 from icalendar import Calendar, Event, vDatetime, vText, vCalAddress
 import datetime
-from backports.zoneinfo import ZoneInfo
 from getcalendar import getcalendar
+import pytz
 
 
-def cal(group, args):
+def cal(group, args, dir, fileName):
 	year = datetime.datetime.now().year
 	month = datetime.datetime.now().month
 	day = datetime.datetime.now().day
 	semester = False
-	if month < 9 or (month == 12 and day > 23):
-		year -= 1
+	if month < 9 or (month == 12 and day >= 23):
+		if month < 9:
+			year -= 1
 		semester = True
 	cal = Calendar()
 	cal.add('prodid', 'EDT Université ' + str(year) + '-' + str(year + 1) + ' ' + group)
@@ -49,11 +50,9 @@ def cal(group, args):
 					calendarinfo[i][info] = "???"
 			addevent("[" + calendarinfo[i]["category"] + "] " + calendarinfo[i]["module"], calendarinfo[i]["startint"], calendarinfo[i]["endint"], loc, desc,
 			         cal)
-			f = open(
-			    '/var/www/html/flask/static/ics/calUni ' + group + ' ' +
-			    str(args)[20:-2].replace("(", "").replace(" ", "_").replace("',", ":").replace("'", "").replace(")", "") + '.ics', 'wb')
-			f.write(cal.to_ical())
-			f.close()
+	f = open(dir + fileName, 'wb')
+	f.write(cal.to_ical())
+	f.close()
 
 
 def addevent(summary, startint, endint, location, description, cal):
@@ -66,7 +65,7 @@ def addevent(summary, startint, endint, location, description, cal):
 	                      int(str(startint)[6:8]),
 	                      int(str(startint)[8:10]),
 	                      int(str(startint)[10:12]),
-	                      tzinfo=ZoneInfo("Europe/Paris")))
+	                      tzinfo=pytz.timezone('Europe/Paris')))
 	event.add(
 	    'dtend',
 	    datetime.datetime(int(str(endint)[:4]),
@@ -74,7 +73,7 @@ def addevent(summary, startint, endint, location, description, cal):
 	                      int(str(endint)[6:8]),
 	                      int(str(endint)[8:10]),
 	                      int(str(endint)[10:12]),
-	                      tzinfo=ZoneInfo("Europe/Paris")))
+	                      tzinfo=pytz.timezone('Europe/Paris')))
 	event['location'] = vText(location)
 	event['description'] = vText(description)
 	cal.add_component(event)
