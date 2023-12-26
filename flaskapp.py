@@ -61,13 +61,13 @@ def getNameCal(group: str, request):
 @app.route("/getcal/", methods=['GET'])
 @app.route("/getcal/<group>", methods=['GET'])
 @app.route("/getcal/<group>/", methods=['GET'])
-def calUni(group=None):
+def calUni(group: str | None = None):
 	if group == None:
 		return redirect(url_for('quatrecentquatre'))
 	for i in os.listdir(DIR):
 		if i == getNameCal(group, request):
 			if (time.time() - int(os.path.getmtime(DIR + getNameCal(group, request))) > 21600):
-				cal(group, request.args)
+				cal(group, request.args, DIR, getNameCal(group, request))
 				return send_from_directory(DIR, path=getNameCal(group, request))
 			return send_from_directory(DIR, path=getNameCal(group, request))
 	print(group, request.args)

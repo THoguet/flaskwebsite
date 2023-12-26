@@ -4,7 +4,7 @@ from getcalendar import getcalendar
 import pytz
 
 
-def cal(group, args, dir, fileName):
+def cal(group: str, args, dir: str, fileName: str):
 	year = datetime.datetime.now().year
 	month = datetime.datetime.now().month
 	day = datetime.datetime.now().day
