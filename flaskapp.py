@@ -61,7 +61,7 @@ def getNameCal(group: str, request):
 @app.route("/getcal/", methods=['GET'])
 @app.route("/getcal/<group>", methods=['GET'])
 @app.route("/getcal/<group>/", methods=['GET'])
-def calUni(group: str | None = None):
+def calUni(group=None):
 	if group == None:
 		return redirect(url_for('quatrecentquatre'))
 	for i in os.listdir(DIR):
