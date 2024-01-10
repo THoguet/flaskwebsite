@@ -27,7 +27,7 @@ def cal(group: str, args, dir: str, fileName: str):
 				if args[calendarinfo[i]["module"][:8]] == 0:
 					ignore = True
 				if args[calendarinfo[i]["module"][:8]] != '1':
-					if calendarinfo[i]["room"][-3:] != args[calendarinfo[i]["module"][:8]]:
+					if calendarinfo[i]["room"][-3:] not in args[calendarinfo[i]["module"][:8]]:
 						ignore = True
 			if ("showcode" in args and args["showcode"] == '0'):
 				calendarinfo[i]["module"] = calendarinfo[i]["module"][9:]
