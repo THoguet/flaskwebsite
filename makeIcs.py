@@ -9,9 +9,7 @@ def cal(group: str, args, dir: str, fileName: str):
 	month = datetime.datetime.now().month
 	day = datetime.datetime.now().day
 	semester = False
-	if month < 7 or (month == 12 and day >= 23):
-		if month == 12:
-			year += 1
+	if month < 7:
 		semester = True
 	cal = Calendar()
 	yearDisplay = str(year) + '-' + str(year + 1)
